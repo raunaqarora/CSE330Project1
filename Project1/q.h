@@ -1,42 +1,34 @@
-//
 //  q.h
 //  Project1
-//
 //  Created by Raunaq Arora on 2/14/17.
 //  Copyright © 2017 Raunaq Arora. All rights reserved.
 //
 
 #ifndef q_h
 #define q_h
-#include<stdio.h>
 #include<stdlib.h>
+#include "tcb.h"
 
 
-struct node
+/*struct node
 {
     int payload;
     struct node* next;
     struct node* prev;
-};
+};*/
 
-struct node* NewItem (int payload)
+TCB_t* NewItem ()
 {
-    struct node* tempItem = malloc(sizeof(struct node));
-    tempItem->payload = payload;
+    TCB_t* tempItem = malloc(sizeof(TCB_t));
     return tempItem;
 };
 
-void InitQueue(struct node **item)
+void InitQueue(TCB_t **item)
 {
-    if((*item) == NULL)
-    {
-        (*item) = malloc(sizeof(struct node));
-    }
-    (*item)->next = *item;
-    (*item)->prev = *item;
+    *item = NULL;
 };
 
-void AddQueue(struct node** head, struct node* item)
+void AddQueue(TCB_t** head, TCB_t* item)
 {
     if((*head) == NULL)
     {
@@ -50,7 +42,9 @@ void AddQueue(struct node** head, struct node* item)
      }*/
     else
     {
-        struct node* last = (*head)->prev;
+        //TCB_t* last = malloc(sizeof(TCB_t));
+        TCB_t* last = (*head)->prev;
+        //last = (*head)->prev;
         last->next = item;
         item->prev = last;
         item->next = (*head);
@@ -58,9 +52,9 @@ void AddQueue(struct node** head, struct node* item)
     }
 };
 
-struct node* DelQueue(struct node** head)
+TCB_t* DelQueue(TCB_t** head)
 {
-    struct node* toReturn;
+    TCB_t* toReturn;
     if((*head) == NULL)
     {
         return NULL;
@@ -80,39 +74,34 @@ struct node* DelQueue(struct node** head)
         (*head) = (*head)->next;
         toReturn->prev->next = toReturn->next;
         toReturn->next->prev = toReturn->prev;
-        //toReturn->prev->prev = toReturn->prev->prev->prev;
-        
         return toReturn;
     }
 };
 
-void RotateQ(struct node** head)
+/*void printAll(struct node** head)
+ {
+ if((*head) == NULL)
+ {
+ printf("Empty Queue \n");
+ return;
+ }
+ printf("Head Node: %d Next Node: %d Prev Node: %d \n",(*head)->payload, (*head)->next->payload, (*head)->prev->payload);
+ if((*head)->next == (*head))
+ {
+ return;
+ }
+ struct node* traverser = (*head)->next;
+ while(traverser != (*head))
+ {
+ printf("Current Node: %d Next Node: %d Prev Node: %d \n",traverser->payload, traverser->next->payload, traverser->prev->payload);
+ traverser = traverser->next;
+ }
+ }*/
+
+void RotateQ(TCB_t** head)
 {
-    //struct node* prev = (*head)->prev;
     (*head) = (*head)->next;
-    //(*head)->prev->prev->prev = prev;
 };
-
-
-void printAll(struct node** head)
-{
-    if((*head) == NULL)
-    {
-        printf("Empty Queue \n");
-        return;
-    }
-    printf("Head Node: %d Next Node: %d Prev Node: %d \n",(*head)->payload, (*head)->next->payload, (*head)->prev->payload);
-    if((*head)->next == (*head))
-    {
-        return;
-    }
-    struct node* traverser = (*head)->next;
-    while(traverser != (*head))
-    {
-        printf("Current Node: %d Next Node: %d Prev Node: %d \n",traverser->payload, traverser->next->payload, traverser->prev->payload);
-        traverser = traverser->next;
-    }
-}
 
 
 #endif
